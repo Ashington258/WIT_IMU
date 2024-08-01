@@ -1,3 +1,13 @@
+<!--
+ * @Author: Ashington ashington258@proton.me
+ * @Date: 2024-05-27 21:13:46
+ * @LastEditors: Ashington ashington258@proton.me
+ * @LastEditTime: 2024-08-01 11:49:55
+ * @FilePath: \WIT_IMU\REDME.md
+ * @Description: 请填写简介
+ * 联系方式:921488837@qq.com
+ * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
+-->
 # 说明
 
 该项目为维特智能的 IMU 撰写了 API 接口
@@ -19,3 +29,7 @@ uint8_t WITIMU_DATA[50];//定义一个缓冲区，用于接收串口数据
 parseIMUData(WITIMU_DATA, &imuData);
 
 ```
+
+## 注意
+
+在接收阶段使用安全性测试`检测头帧和尾帧`，或者使用串口空闲中断和DMA，以及FIFO
