@@ -1,28 +1,39 @@
-/*
- * @Author: Ashington ashington258@proton.me
- * @Date: 2024-08-04 17:09:24
- * @LastEditors: Ashington ashington258@proton.me
- * @LastEditTime: 2024-08-04 17:25:10
- * @FilePath: \WIT_IMU\CPP\wit_imu.cpp
- * @Description: 请填写简介
- * 联系方式:921488837@qq.com
- * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
- */
-// wit_imu.cpp
-#include "wit_imu.h"
+#include "wit_imu.hpp"
+
+// 创建 IMUData 实例
+IMUData *createIMUData()
+{
+    return new IMUData();
+}
+
+// 销毁 IMUData 实例
+void destroyIMUData(IMUData *imu)
+{
+    delete imu;
+}
+
+// 解析 IMU 数据
+int parseIMUData(IMUData *imu, unsigned char data[])
+{
+    return imu->parseIMUData(data);
+}
 
 // 计算校验和函数
-unsigned char IMUData::calculateChecksum(unsigned char data[]) {
+unsigned char IMUData::calculateChecksum(unsigned char data[])
+{
     unsigned char checksum = 0;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++)
+    {
         checksum += data[i];
     }
     return checksum;
 }
 
 // 解析加速度数据函数
-int IMUData::parseAccelData(unsigned char data[]) {
-    if (calculateChecksum(data) != data[10]) {
+int IMUData::parseAccelData(unsigned char data[])
+{
+    if (calculateChecksum(data) != data[10])
+    {
         return 0;
     }
     short accelX_raw = (data[3] << 8) | data[2];
@@ -37,8 +48,10 @@ int IMUData::parseAccelData(unsigned char data[]) {
 }
 
 // 解析角速度数据函数
-int IMUData::parseGyroData(unsigned char data[]) {
-    if (calculateChecksum(data) != data[10]) {
+int IMUData::parseGyroData(unsigned char data[])
+{
+    if (calculateChecksum(data) != data[10])
+    {
         return 0;
     }
     short gyroX_raw = (data[3] << 8) | data[2];
@@ -52,8 +65,10 @@ int IMUData::parseGyroData(unsigned char data[]) {
 }
 
 // 解析角度数据函数
-int IMUData::parseAngleData(unsigned char data[]) {
-    if (calculateChecksum(data) != data[10]) {
+int IMUData::parseAngleData(unsigned char data[])
+{
+    if (calculateChecksum(data) != data[10])
+    {
         return 0;
     }
     short roll_raw = (data[3] << 8) | data[2];
@@ -67,8 +82,10 @@ int IMUData::parseAngleData(unsigned char data[]) {
 }
 
 // 解析磁场数据函数
-int IMUData::parseMagData(unsigned char data[]) {
-    if (calculateChecksum(data) != data[10]) {
+int IMUData::parseMagData(unsigned char data[])
+{
+    if (calculateChecksum(data) != data[10])
+    {
         return 0;
     }
     short magX_raw = (data[3] << 8) | data[2];
@@ -83,10 +100,12 @@ int IMUData::parseMagData(unsigned char data[]) {
 }
 
 // 解析IMU数据函数
-int IMUData::parseIMUData(unsigned char data[]) {
+int IMUData::parseIMUData(unsigned char data[])
+{
     // if (!parseAccelData(data, &accel)) return 0;
     // if (!parseGyroData(data + 11, &gyro)) return 0;
-    if (!parseAngleData(data + 22)) return 0;
+    if (!parseAngleData(data + 22))
+        return 0;
     // if (!parseMagData(data + 33, &mag)) return 0;
     return 1;
 }
